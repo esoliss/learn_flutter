@@ -102,15 +102,19 @@ class _TableEventsExampleState extends State<TableEventsExample> {
                   decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
                     color: isTurn ? Colors.blue : Colors.green,
+                    //border: Border.all(),
+                    borderRadius: BorderRadius.circular(2.0),
                   ),
                   width: 25.0,
                   height: 9.0,
                   margin: const EdgeInsets.symmetric(horizontal: 1.5),
                   child: isTurn
                       ? const Text('Turno 1',
-                          style: TextStyle(color: Colors.white, fontSize: 7))
+                          style: TextStyle(color: Colors.white, fontSize: 7),
+                          textAlign: TextAlign.center)
                       : const Text('Turno 2',
-                          style: TextStyle(color: Colors.white, fontSize: 7)),
+                          style: TextStyle(color: Colors.white, fontSize: 7),
+                          textAlign: TextAlign.center),
                 );
               })),
               firstDay: kFirstDay,
