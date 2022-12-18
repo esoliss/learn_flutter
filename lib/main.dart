@@ -43,9 +43,9 @@ class _RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Jornada 14-14  Mantenimiento CCS'),
-      ),
+      //appBar: AppBar(
+      //title: const Text('Jornada 14-14  Mantenimiento CCS'),
+      //),
       body: pages[currentPage],
       bottomNavigationBar: NavigationBar(
         destinations: const [
