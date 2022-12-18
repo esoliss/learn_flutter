@@ -90,101 +90,79 @@ class _TableEventsExampleState extends State<TableEventsExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          TableCalendar<Event>(
-            calendarBuilders:
-                CalendarBuilders(singleMarkerBuilder: ((context, day, event) {
-              return Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: isTurn ? Colors.blue : Colors.green,
-                ),
-                width: 25.0,
-                height: 9.0,
-                margin: const EdgeInsets.symmetric(horizontal: 1.5),
-                child: isTurn
-                    ? const Text('Turno 1',
-                        style: TextStyle(color: Colors.white, fontSize: 7))
-                    : const Text('Turno 2',
-                        style: TextStyle(color: Colors.white, fontSize: 7)),
-              );
-            })),
-            firstDay: kFirstDay,
-            lastDay: kLastDay,
-            focusedDay: _focusedDay,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            rangeStartDay: _rangeStart,
-            rangeEndDay: _rangeEnd,
-            calendarFormat: _calendarFormat,
-            rangeSelectionMode: _rangeSelectionMode,
-            //eventLoader: _getEventsForDay,
-            eventLoader: (day) {
-              pastDays = day.difference(DateTime(2022, 12, 26)).inDays;
-              tTrans = pastDays ~/ 14;
-              dTrans = pastDays % 14;
-              if (tTrans % 2 == 0) {
-                if (pastDays % 14 == 0) {
-                  isTurn = false;
-                } else {
-                  isTurn = true;
-                }
-                return [const Event('Turno')];
-              } else {
-                if (pastDays % 14 == 0) {
-                  isTurn = true;
-                } else {
-                  isTurn = false;
-                }
-                return [const Event('Turno')];
-              }
-            },
-            startingDayOfWeek: StartingDayOfWeek.monday,
-            calendarStyle: const CalendarStyle(
-              // Use `CalendarStyle` to customize the UI
-              outsideDaysVisible: true,
-            ),
-            onDaySelected: _onDaySelected,
-            onRangeSelected: _onRangeSelected,
-            onFormatChanged: (format) {
-              if (_calendarFormat != format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
-              }
-            },
-            onPageChanged: (focusedDay) {
-              _focusedDay = focusedDay;
-            },
-          ),
-          const SizedBox(height: 8.0),
-          Expanded(
-            child: ValueListenableBuilder<List<Event>>(
-              valueListenable: _selectedEvents,
-              builder: (context, value, _) {
-                return ListView.builder(
-                  itemCount: value.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 4.0,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: ListTile(
-                        onTap: () => print('${value[index]}'),
-                        title: Text('${value[index]}'),
-                      ),
-                    );
-                  },
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TableCalendar<Event>(
+              headerStyle: const HeaderStyle(formatButtonVisible: false),
+              calendarBuilders:
+                  CalendarBuilders(singleMarkerBuilder: ((context, day, event) {
+                return Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: isTurn ? Colors.blue : Colors.green,
+                  ),
+                  width: 25.0,
+                  height: 9.0,
+                  margin: const EdgeInsets.symmetric(horizontal: 1.5),
+                  child: isTurn
+                      ? const Text('Turno 1',
+                          style: TextStyle(color: Colors.white, fontSize: 7))
+                      : const Text('Turno 2',
+                          style: TextStyle(color: Colors.white, fontSize: 7)),
                 );
+              })),
+              firstDay: kFirstDay,
+              lastDay: kLastDay,
+              focusedDay: _focusedDay,
+              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+              rangeStartDay: _rangeStart,
+              rangeEndDay: _rangeEnd,
+              calendarFormat: _calendarFormat,
+              rangeSelectionMode: _rangeSelectionMode,
+              rowHeight: 100,
+              //eventLoader: _getEventsForDay,
+              eventLoader: (day) {
+                pastDays = day.difference(DateTime(2022, 12, 26)).inDays;
+                tTrans = pastDays ~/ 14;
+                dTrans = pastDays % 14;
+                if (tTrans % 2 == 0) {
+                  if (pastDays % 14 == 0) {
+                    isTurn = false;
+                  } else {
+                    isTurn = true;
+                  }
+                  return [const Event('Turno')];
+                } else {
+                  if (pastDays % 14 == 0) {
+                    isTurn = true;
+                  } else {
+                    isTurn = false;
+                  }
+                  return [const Event('Turno')];
+                }
+              },
+              startingDayOfWeek: StartingDayOfWeek.monday,
+              calendarStyle: const CalendarStyle(
+                // Use `CalendarStyle` to customize the UI
+                outsideDaysVisible: true,
+              ),
+              onDaySelected: _onDaySelected,
+              onRangeSelected: _onRangeSelected,
+              onFormatChanged: (format) {
+                if (_calendarFormat != format) {
+                  setState(() {
+                    //_calendarFormat = format;
+                  });
+                }
+              },
+              onPageChanged: (focusedDay) {
+                _focusedDay = focusedDay;
               },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
