@@ -14,7 +14,6 @@ class TableEventsExample extends StatefulWidget {
 class _TableEventsExampleState extends State<TableEventsExample> {
   late final ValueNotifier<List<Event>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  CalendarBuilders _calendarBuilders = CalendarBuilders();
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
       .toggledOff; // Can be toggled on/off by longpressing a date
   DateTime _focusedDay = DateTime.now();
@@ -83,6 +82,11 @@ class _TableEventsExampleState extends State<TableEventsExample> {
     }
   }
 
+  int pastDays = 0;
+  int tTrans = 0;
+  int dTrans = 0;
+  bool isTurn = false; //false Turno 2
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,13 +96,18 @@ class _TableEventsExampleState extends State<TableEventsExample> {
             calendarBuilders:
                 CalendarBuilders(singleMarkerBuilder: ((context, day, event) {
               return Container(
-                decoration: const BoxDecoration(
-                    shape: BoxShape.rectangle, color: Colors.blueAccent),
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: isTurn ? Colors.blue : Colors.green,
+                ),
                 width: 25.0,
                 height: 9.0,
                 margin: const EdgeInsets.symmetric(horizontal: 1.5),
-                child: const Text('Turno 1',
-                    style: TextStyle(color: Colors.white, fontSize: 7)),
+                child: isTurn
+                    ? const Text('Turno 1',
+                        style: TextStyle(color: Colors.white, fontSize: 7))
+                    : const Text('Turno 2',
+                        style: TextStyle(color: Colors.white, fontSize: 7)),
               );
             })),
             firstDay: kFirstDay,
@@ -111,10 +120,24 @@ class _TableEventsExampleState extends State<TableEventsExample> {
             rangeSelectionMode: _rangeSelectionMode,
             //eventLoader: _getEventsForDay,
             eventLoader: (day) {
-              if (day.weekday == DateTime.monday) {
-                return [const Event('Turno 2')];
+              pastDays = day.difference(DateTime(2022, 12, 26)).inDays;
+              tTrans = pastDays ~/ 14;
+              dTrans = pastDays % 14;
+              if (tTrans % 2 == 0) {
+                if (pastDays % 14 == 0) {
+                  isTurn = false;
+                } else {
+                  isTurn = true;
+                }
+                return [const Event('Turno')];
+              } else {
+                if (pastDays % 14 == 0) {
+                  isTurn = true;
+                } else {
+                  isTurn = false;
+                }
+                return [const Event('Turno')];
               }
-              return [];
             },
             startingDayOfWeek: StartingDayOfWeek.monday,
             calendarStyle: const CalendarStyle(
