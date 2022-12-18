@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tutorial/home_page.dart';
 import 'package:tutorial/profile_page.dart';
+import 'package:tutorial/table_basics_example.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +30,7 @@ class RootPage extends StatefulWidget {
 
 class _RootPageState extends State<RootPage> {
   int currentPage = 0;
-  List<Widget> pages = const [HomePage(), ProfilePage()];
+  List<Widget> pages = [HomePage(), ProfilePage(), TableBasicsExample()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +47,8 @@ class _RootPageState extends State<RootPage> {
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
           NavigationDestination(icon: Icon(Icons.person), label: 'Profile'),
+          NavigationDestination(
+              icon: Icon(Icons.calendar_month), label: 'Calendar'),
         ],
         onDestinationSelected: (int index) {
           setState(() {
